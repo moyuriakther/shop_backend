@@ -8,8 +8,23 @@ const productRoute = express.Router();
 productRoute.get(
   "",
   asyncHandler(async (req, res) => {
-    const products = await Product.find({});
-    res.json(products);
+    const pageSize = 6;
+    const page = Number(req.query.pageNumber) || 1;
+    const search = req.query.search
+      ? {
+          name: {
+            $regex: req.query.search,
+            $options: "i",
+          },
+        }
+      : {};
+
+    const count = await Product.countDocuments({ ...search });
+    const products = await Product.find({ ...search })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort({ _id: -1 });
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
   })
 );
 // get a single product
