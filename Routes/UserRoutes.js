@@ -2,7 +2,7 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import User from "./../Models/UserModel.js";
 import generateToken from "../utils/generateToken.js";
-import protect from "../middleware/AuthMiddleware.js";
+import { protect, admin } from "../middleware/AuthMiddleware.js";
 
 const userRouter = express.Router();
 // login
@@ -101,6 +101,16 @@ userRouter.put(
       res.status(404);
       throw new Error("User Not Found");
     }
+  })
+);
+//get all user admin
+userRouter.get(
+  "/",
+  protect,
+  admin,
+  asyncHandler(async (req, res) => {
+    const users = await User.find({});
+    res.json(users);
   })
 );
 export default userRouter;

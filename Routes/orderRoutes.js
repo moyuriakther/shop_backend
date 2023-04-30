@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
-import protect from "../middleware/AuthMiddleware.js";
+import { admin, protect } from "../middleware/AuthMiddleware.js";
 import Order from "../Models/OrderModel.js";
 // import ObjectId from "mongodb";
 
@@ -38,6 +38,18 @@ orderRouter.post(
       const createOrder = await order.save();
       res.status(201).json(createOrder);
     }
+  })
+);
+// admin get all orders
+orderRouter.get(
+  "/all",
+  protect,
+  admin,
+  asyncHandler(async (req, res) => {
+    const orders = await Order.find({})
+      .sort({ _id: -1 })
+      .populate("user", "id name email");
+    res.json(orders);
   })
 );
 // login user orders
