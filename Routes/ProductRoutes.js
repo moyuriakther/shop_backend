@@ -8,6 +8,7 @@ const productRoute = express.Router();
 productRoute.get(
   "",
   asyncHandler(async (req, res) => {
+    console.log("all product server");
     const pageSize = 6;
     const page = Number(req.query.pageNumber) || 1;
     const search = req.query.search

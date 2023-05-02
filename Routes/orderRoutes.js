@@ -101,5 +101,26 @@ orderRouter.put(
     }
   })
 );
+// order is delivered
+orderRouter.put(
+  "/:id/delivered",
+  // protect,
+  asyncHandler(async (req, res) => {
+    console.log(req.params.id);
+    console.log(req);
+    const order = await Order.findById(req.params.id);
+    console.log(order);
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+
+      const updatedOrder = await order.save();
+      res.json(updatedOrder);
+    } else {
+      res.status(404);
+      throw new Error("delivered error");
+    }
+  })
+);
 
 export default orderRouter;
