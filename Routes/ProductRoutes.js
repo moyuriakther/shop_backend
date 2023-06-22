@@ -31,7 +31,6 @@ productRoute.get(
 //get all products without search and pagination
 productRoute.get(
   "/allProducts",
-  protect,
   asyncHandler(async (req, res) => {
     const products = await Product.find({}).sort({ _id: -1 });
     res.json(products);
