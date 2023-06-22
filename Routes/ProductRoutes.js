@@ -28,7 +28,15 @@ productRoute.get(
     res.json({ products, page, pages: Math.ceil(count / pageSize) });
   })
 );
-
+//get all products without search and pagination
+productRoute.get(
+  "/allProducts",
+  protect,
+  asyncHandler(async (req, res) => {
+    const products = await Product.find({}).sort({ _id: -1 });
+    res.json(products);
+  })
+);
 // admin get all products without search and pagination
 productRoute.get(
   "/all",
