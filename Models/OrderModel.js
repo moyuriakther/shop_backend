@@ -28,7 +28,7 @@ const orderSchema = mongoose.Schema(
     paymentMethod: {
       type: String,
       required: true,
-      default: "Paypal",
+      default: "Stripe",
     },
     paymentResult: {
       id: { type: String },

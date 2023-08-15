@@ -64,6 +64,7 @@ productRoute.post(
   "/:id/review",
   protect,
   asyncHandler(async (req, res) => {
+    // console.log(req.body);
     const { rating, comment } = req.body.review;
     const product = await Product.findById(req.params.id);
     if (product) {
