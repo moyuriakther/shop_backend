@@ -15,7 +15,17 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middle wires
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: [      
+      "https://vite-react-shop.web.app",
+      "https://vite-shop-admin.web.app",
+      "https://vite-react-shop.web.app",
+      "http://localhost:4040"
+    ],
+  })
+);
 app.use(express.json());
 
 app.use("/api/import", ImportData);
